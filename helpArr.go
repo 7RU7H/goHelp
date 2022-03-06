@@ -1,5 +1,7 @@
 package goHelp
 
+import "strings"
+
 func initIntArray(n int) []int {
 	result := make([]int, n)
 	for i := 0; i <= sizeR-1; i++ {
@@ -17,19 +19,19 @@ func initStrArray(n int) []string {
 }
 
 func getKeysIntS(m map[int]string) []int {
-keys := make([]int, 0, len(m))
+	keys := make([]int, 0, len(m))
 	for k, _ := range m {
 		keys = append(keys, k)
 	}
-return keys
+	return keys
 }
 
 func getKeysIntI(m map[int]int) []int {
-keys := make([]int, 0, len(m))
+	keys := make([]int, 0, len(m))
 	for k, _ := range m {
 		keys = append(keys, k)
 	}
-return keys
+	return keys
 }
 
 func initMirror2dStr(arr [][]str) [][]str {
@@ -76,15 +78,34 @@ func removeQuotesStrSlices(s string) string {
 	return builder.String()
 }
 
-func evalSize2dInt(arr [][]int) (int,int) {
+func evalSize2dInt(arr [][]int) (int, int) {
 	sizeX := len(arr) - 1
 	sizeY := len(arr[:]) - 1
-return sizeY, sizeX
+	return sizeY, sizeX
 }
 
-func evalSize2dStr(arr [][]string) (int,int) {
+func evalSize2dStr(arr [][]string) (int, int) {
 	sizeX := len(arr) - 1
 	sizeY := len(arr[:]) - 1
-return sizeY, sizeX
+	return sizeY, sizeX
 }
 
+func largestInt(arr []int) int {
+	var n int = 0
+	for _, m := range arr {
+		if m > n {
+			n = m
+		}
+	}
+	return n
+}
+
+func largestStr(arr []string) int {
+	var n int = 0
+	for _, m := range arr {
+		if len(m) > n {
+			n = m
+		}
+	}
+	return n
+}
