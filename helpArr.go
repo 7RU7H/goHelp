@@ -11,9 +11,9 @@ func initIntArray(n int) []int {
 }
 
 func initStrArray(n int) []string {
-	result := make([]int, n)
+	result := make([]string, n)
 	for i := 0; i <= n-1; i++ {
-		result[i] = 0
+		result[i] = ""
 	}
 	return result
 }
