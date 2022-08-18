@@ -56,3 +56,20 @@ func remove0xStub(s string) string {
 	stubless := strings.TrimPrefix(s, "0x")
 	return stubless
 }
+
+func removeExcessWS(s string) string {
+	builder := strings.Builder{}
+	splitS := strings.Split(s, "")
+	sliceSize := len(splitS) - 1
+
+	for i := 0; i <= sliceSize; i++ {
+		if !strings.Contains(splitS[i], " ") {
+			builder.WriteString(splitS[i])
+			if i != sliceSize && strings.Contains(splitS[i+1], " ") {
+				builder.WriteString(" ")
+			}
+		}
+
+	}
+	return builder.String()
+}
