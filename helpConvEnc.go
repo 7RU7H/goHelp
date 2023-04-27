@@ -7,5 +7,5 @@ import (
 	)
 
 func convStrSliceNumToHex(s []string)  {
-	hex.EncodeToString([]byte(str))
+	return	hex.EncodeToString([]byte(str))
 }
