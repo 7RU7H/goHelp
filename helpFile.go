@@ -1,3 +1,14 @@
+
+func createFile(filepath string) error {
+        filePtr, err := os.Create(filename);
+        if err != nil {
+                fmt.Fprintln(os.Stderr, "File Creation Error:", err)
+                //log.Fatal(err);
+        }
+        defer filePtr.Close(); 
+        return nil
+}
+
 func checkFileExists(path string) (bool error) {
         _, err := os.Stat(path)
         if err == nil {
