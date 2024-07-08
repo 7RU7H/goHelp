@@ -1,10 +1,12 @@
+package goHelp
 
 import (
+	"encoding/base64"
 	"fmt"
 	"strings"
 )
 
-//collect argument is for some string pattern not regex to marshal strings in the list  
+// collect argument is for some string pattern not regex to marshal strings in the list
 func replaceWS20(scrap, collect string, size int) string {
 	rLargeWS := strings.NewReplacer(" ", ",", "   ", ",", "    ", ",", "     ", ",", "      ", ",", "       ", ",", "        ", ",", "         ", ",", "          ", ",", "           ", ",", "            ", ",", "             ", ",", "              ", ",", "               ", ",", "                ", ",", "                 ", ",", "                  ", ",", "                   ", ",", "                    ", ",")
 	rSingleWS := strings.NewReplacer(" ", "")
@@ -21,7 +23,7 @@ func replaceWS20(scrap, collect string, size int) string {
 			i++
 		}
 	}
-  result := strings.Join(data, "")
+	result := strings.Join(data, "")
 	return result
 }
 
@@ -41,15 +43,18 @@ func reverseStrEndianness(s string) string {
 	return builder.String()
 }
 
-
 func covertStrToByte(s string) []byte {
-  result := byte[](s)
+	result := []byte(s)
 	return result
 }
 
 func add0xStub(s string) string {
 	addzeroX := "0x" + s
 	return addzeroX
+}
+
+func convLowerCase(s string) string {
+	return strings.ToLower(s)
 }
 
 func remove0xStub(s string) string {
@@ -72,4 +77,13 @@ func removeExcessWS(s string) string {
 
 	}
 	return builder.String()
+}
+
+func decodeBase64(s string) (result string, err error) {
+	result, err = base64.StdEncoding.DecodeString(s)
+	if err != nil {
+		fmt.Printf("Error decoding from base64: %s ", err.Error())
+		return s, err
+	}
+	return result, err
 }
