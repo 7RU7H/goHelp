@@ -5,10 +5,37 @@ import (
 	"bytes"
 	"compress/gzip"
 	"fmt"
+	"io"
 	"log"
 	"os"
 	"strings"
 )
+
+// https://zetcode.com/golang/copyfile/
+func backupFile(src string) error {
+	fin, err := os.Open(src)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, "Error:", err)
+		err = createFile(src)
+		fmt.Fprintln(os.Stderr, "Error:", err)
+		fin, err = os.Open(src)
+		fmt.Fprintln(os.Stderr, "Error:", err)
+	}
+	defer fin.Close()
+
+	dst := fin.Name() + ".bak"
+	fout, err := os.Create(dst)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, "Error:", err)
+	}
+	defer fout.Close()
+
+	_, err = io.Copy(fout, fin)
+	if err != nil {
+		fmt.Fprintln(os.Stderr, "Error:", err)
+	}
+	return nil
+}
 
 func createFile(filepath string) error {
 	filePtr, err := os.Create(filename)
@@ -20,8 +47,7 @@ func createFile(filepath string) error {
 	return nil
 }
 
-// FIX
-func checkFileExists(path string) (bool error) {
+func checkFileExists(path string) (bool, error) {
 	_, err := os.Stat(path)
 	if err == nil {
 		log.Fatal(err)
