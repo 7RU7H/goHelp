@@ -128,3 +128,29 @@ func encodeGzip(s string) {
 	}
 	return b.Bytes()
 }
+
+// petergrep
+// modified from https://stackoverflow.com/questions/26709971/could-this-be-more-efficient-in-go
+func grepFileForFSBits(file string, fsBits) error {
+	f, err := os.Open(file)
+	if err != nil {
+		err.errorHandling(err, 2)
+        return err
+	}
+	defer f.Close()
+	scanner := bufio.NewScanner(f)
+	for scanner.Scan() {
+		for i := 0; i <= 16 -1; i++ {
+			if bytes.Contains(scanner.Bytes(), jsonBitID) {
+				builder.WriteString("Scanned " + file + " which contains " + string(fsBits) + "at: " string(f.[i]))
+				log.Println(builder.String())
+				builder.Reset()
+			}
+		}
+	}
+	if err := scanner.Err(); err != nil {
+		err.errorHandling(err, 2)
+        return err
+	}
+	return patCount, artifacts
+}
