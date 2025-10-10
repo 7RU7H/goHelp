@@ -108,25 +108,39 @@ func grepFile(file string, patterns []byte) (int64 map[int]string) {
 	return patCount, artifacts
 }
 
-func decodeGzip(s string) {
-	var buf bytes.Buffer
-	sAsBytes := []bytes(s)
-	gz := qzip.NewReader(&buf)
-	// TODO
-	gz.Close()
-
-}
-
-func encodeGzip(s string) {
+func encodeGzipStr(s string) (string, error) {
 	var buf bytes.Buffer
 	gz := gzip.NewWriter(&buf)
 	if _, err := gz.Write([]byte(s)); err != nil {
-		log.Fatal(err)
+		return "", err
 	}
 	if err := gz.Close(); err != nil {
-		log.Fatal(err)
+		return "", err
 	}
-	return b.Bytes()
+	return base64.StdEncoding.EncodeToString(buf.Bytes()), nil
+}
+
+func decodeGzipStr(s string) (string, error) {
+	decodedBytes, err := base64.StdEncoding.DecodeString(s)
+	if err != nil {
+		return "", err
+	}
+
+	var buf bytes.Buffer
+	buf.Write(decodedBytes)
+
+	gz, err := gzip.NewReader(&buf)
+	if err != nil {
+		return "", err
+	}
+	defer gz.Close()
+
+	decompressedBytes, err := io.ReadAll(gz)
+	if err != nil {
+		return "", err
+	}
+
+	return string(decompressedBytes), nil
 }
 
 // petergrep
